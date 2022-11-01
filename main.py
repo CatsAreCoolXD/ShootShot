@@ -1,3 +1,9 @@
+#  Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+#  Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+#  Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+#  Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+#  Vestibulum commodo. Ut rhoncus gravida arcu.
+
 import pygame
 import pygame.mixer as mixer
 import numpy
@@ -82,7 +88,8 @@ class Particle:
 player = pygame.image.load("other/player.png").convert_alpha()
 player = pygame.transform.scale(player, (100, 100))
 player = Player((590, 310), -9.81, player, 10, -10, 20)
-background = pygame.transform.scale(pygame.image.load("other/background.png"), (1280, 720))
+background = pygame.transform.scale(pygame.image.load("other/background.png").convert_alpha(), (1280, 720))
+background.set_alpha(99)
 clock = pygame.time.Clock()
 new_velocity = (0, 0)
 game = 0
@@ -138,9 +145,12 @@ musicS.play(loops=100)
 collectedCoin = False
 paused = False
 decrease = score/2
+colorbackgrounds = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255), (0, 255, 255), (192, 192, 192), (128, 128, 128), (128, 0, 0), (128, 128, 0), (0, 128, 0), (128, 0, 128), (0, 128, 128), (0, 0, 128), (255, 140, 0), (255, 165, 0), (255, 69, 0), (218, 112, 214), (238, 130, 238), (186, 85, 211), (153, 50, 204), (148, 0, 211), (138, 43, 226), (160, 82, 45), (165, 42, 42), (178, 34, 34), (220, 20, 60), (255, 0, 0), (255,105, 180), (255, 20, 147), (255,192, 203), (219,112, 147), (199,21, 133), (176,48, 96), (160,32, 240), (148,0,211), (139,0,139), ( 128,0, 128), (128,0,0), (255, 0, 255), (255,0,0), (220,20, 60), (255, 250, 205), (248, 248, 255), (245, 245, 245), (255, 255, 240), (240, 255, 240), (240, 248, 255), (240, 255, 255), (240, 255, 255), (255, 240, 245), (255, 248, 220), (255, 250, 205), (250, 250, 210), (210, 245, 255), (245, 222, 179), (255, 228, 196), (255, 235, 205), (245, 245, 220), (220, 220, 220), (188, 143, 143), (255,193, 193), (255, 182, 193), (255, 160, 122), (255, 140, 0), (255, 127, 80)]
+random.shuffle(colorbackgrounds)
+backgroundColor = random.choice(colorbackgrounds)
 while r:
     clock.tick(45)
-    screen.fill((255, 255, 255))
+    screen.fill(backgroundColor)
     screen.blit(background, (0,0))
     mousePos = pygame.mouse.get_pos()
     for event in pygame.event.get():
@@ -202,6 +212,7 @@ while r:
                 decrease = (score/2)-5
             else:
                 decrease = 45
+            backgroundColor = random.choice(colorbackgrounds)
             coinrect = pygame.Rect(coinLocation[0], coinLocation[1], 50 - decrease, 50 - decrease)
             coins = []
             for x in range(6):
