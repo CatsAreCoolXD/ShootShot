@@ -20,7 +20,7 @@ failS = mixer.Sound("sfx/fail.wav")
 musicS = mixer.Sound("sfx/music.wav")
 musicS.set_volume(0.5)
 
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 
 
 class Player:
