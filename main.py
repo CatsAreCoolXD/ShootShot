@@ -1,4 +1,4 @@
-#  Copyright (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+#  Copyright catsarecoolxd (c) 2022. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 #  Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
 #  Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
 #  Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
@@ -51,8 +51,8 @@ class Player:
 
         self.pos = numpy.subtract(self.pos, self.velocity)
         if self.pos[1] < -50:
-            self.pos[1] += 770
-        elif self.pos[1] > 770:
+            self.pos[1] += screen.get_size()[1]
+        elif self.pos[1] > screen.get_size()[1]-50:
             scene = menu
             self.pos = (
             self.sprite.get_rect(center=(1280 / 2, 720 / 2))[0], self.sprite.get_rect(center=(1280 / 2, 720 / 2))[1])
@@ -60,9 +60,9 @@ class Player:
                 highscore = score
             failS.play()
         if self.pos[0] < 0:
-            self.pos[0] += 1330
-        if self.pos[0] > 1280:
-            self.pos[0] -= 1330
+            self.pos[0] += screen.get_size()[0]
+        if self.pos[0] > screen.get_size()[0]:
+            self.pos[0] -= (screen.get_size()[0])
 
     def draw(self):
         global shotgun, paused, angle
@@ -87,8 +87,8 @@ class Particle:
 
 player = pygame.image.load("other/player.png").convert_alpha()
 player = pygame.transform.scale(player, (100, 100))
-player = Player((590, 310), -9.81, player, 10, -10, 20)
-background = pygame.transform.scale(pygame.image.load("other/background.png").convert_alpha(), (1280, 720))
+player = Player((screen.get_size()[0]/2-50, screen.get_size()[1]/2-50), -9.81, player, 12.5, -12.5, 20)
+background = pygame.transform.scale(pygame.image.load("other/background.png").convert_alpha(), screen.get_size())
 background.set_alpha(99)
 clock = pygame.time.Clock()
 new_velocity = (0, 0)
@@ -100,18 +100,18 @@ shotgun = pygame.image.load("other/shotgun.png").convert_alpha()
 shotgun = pygame.transform.scale(shotgun, (83, 66))
 pausemenu = pygame.image.load("other/pause.png").convert_alpha()
 pygame.font.init()
-font = pygame.font.Font("font/AlfaSlabOne-Regular.ttf", 150)
-font2 = pygame.font.Font("font/PoorStory-Regular.ttf", 50)
-font3 = pygame.font.SysFont("Arial", 350)
-font4 = pygame.font.Font("font/Nunito-Black.ttf", 75)
-titel = font.render("ShootShot", True, (0, 255, 0))
-clicktext = font2.render("Click to start!", True, (0, 0, 0))
-scoretext = font3.render("0", True, (0, 0, 0))
+AlfaSlabOne = pygame.font.Font("font/AlfaSlabOne-Regular.ttf", 150)
+PoorStoryRegular = pygame.font.Font("font/PoorStory-Regular.ttf", 50)
+Regular = pygame.font.SysFont("Arial", 350)
+NunitoBlack = pygame.font.Font("font/Nunito-Black.ttf", 75)
+titel = AlfaSlabOne.render("ShootShot", True, (0, 255, 0))
+clicktext = PoorStoryRegular.render("Click to start!", True, (0, 0, 0))
+scoretext = Regular.render("0", True, (0, 0, 0))
 with open("other/highscore.txt", "r") as f:
     highscore = f.read()
     highscore.replace("\n", "")
 highscore = int(highscore)
-highscoretext = font4.render(f"Highscore: {highscore}", True, (0, 0, 0))
+highscoretext = NunitoBlack.render(f"Highscore: {highscore}", True, (0, 0, 0))
 coins = []
 for x in range(6):
     coins.append(pygame.transform.scale(pygame.image.load(f"coin/coin{x + 1}.png"), (50, 50)))
@@ -127,13 +127,13 @@ colors = [(255, 0, 0),
           (0, 255, 125),
           (0, 125, 255),
           (125, 0, 255)]
-r = True
+gaming = True
 scoretext.set_alpha(75)
 scoretext = scoretext.convert_alpha()
-coinLocation = (random.randint(50, 1230), random.randint(50, 670))
-titlerect = titel.get_rect(center=(1280 / 2, 150))
-scorerect = scoretext.get_rect(center=(1280 / 2, 720 / 2))
-highscorerect = highscoretext.get_rect(center=(1280 / 2, 50))
+coinLocation = (random.randint(50, screen.get_size()[0]), random.randint(50, screen.get_size()[1]))
+titlerect = titel.get_rect(center=(screen.get_size()[0]/2, screen.get_size()[1]/5))
+scorerect = scoretext.get_rect(center=(screen.get_size()[0]/2, screen.get_size()[1]/2))
+highscorerect = highscoretext.get_rect(center=(screen.get_size()[0]/2, screen.get_size()[1]/2-(screen.get_size()[1]/2.25)))
 number2 = 0
 currentCoin = 0
 coinrect = pygame.Rect(coinLocation[0], coinLocation[1], 50, 50)
@@ -148,14 +148,14 @@ decrease = score/2
 colorbackgrounds = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (255, 0, 255), (0, 255, 255), (192, 192, 192), (128, 128, 128), (128, 0, 0), (128, 128, 0), (0, 128, 0), (128, 0, 128), (0, 128, 128), (0, 0, 128), (255, 140, 0), (255, 165, 0), (255, 69, 0), (218, 112, 214), (238, 130, 238), (186, 85, 211), (153, 50, 204), (148, 0, 211), (138, 43, 226), (160, 82, 45), (165, 42, 42), (178, 34, 34), (220, 20, 60), (255, 0, 0), (255,105, 180), (255, 20, 147), (255,192, 203), (219,112, 147), (199,21, 133), (176,48, 96), (160,32, 240), (148,0,211), (139,0,139), ( 128,0, 128), (128,0,0), (255, 0, 255), (255,0,0), (220,20, 60), (255, 250, 205), (248, 248, 255), (245, 245, 245), (255, 255, 240), (240, 255, 240), (240, 248, 255), (240, 255, 255), (240, 255, 255), (255, 240, 245), (255, 248, 220), (255, 250, 205), (250, 250, 210), (210, 245, 255), (245, 222, 179), (255, 228, 196), (255, 235, 205), (245, 245, 220), (220, 220, 220), (188, 143, 143), (255,193, 193), (255, 182, 193), (255, 160, 122), (255, 140, 0), (255, 127, 80)]
 random.shuffle(colorbackgrounds)
 backgroundColor = random.choice(colorbackgrounds)
-while r:
+while gaming:
     clock.tick(45)
     screen.fill(backgroundColor)
     screen.blit(background, (0,0))
     mousePos = pygame.mouse.get_pos()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            r = False
+            gaming = False
         if event.type == pygame.FULLSCREEN:
             screen = pygame.display.set_mode((1920, 1080))
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -181,6 +181,7 @@ while r:
                 scene = game
                 score = 0
                 new_velocity = numpy.subtract(player.pos, mousePos) * -1
+                player.pos = (screen.get_size()[0]/2-50, screen.get_size()[1]/2-50)
                 player.resetVelocity()
                 player.addForce(new_velocity / 10)
                 explosionS.play()
@@ -224,9 +225,9 @@ while r:
             score += 1
             background.map_rgb((255, 0, 0))
             collectedCoin = True
-            scoretext = font3.render(str(score), True, (0, 0, 0))
+            scoretext = Regular.render(str(score), True, (0, 0, 0))
             scoretext.set_alpha(75)
-            coinLocation = (random.randint(50, 1230), random.randint(50, 670))
+            coinLocation = (random.randint(50, screen.get_size()[0]), random.randint(50, screen.get_size()[1]))
             coinrect = pygame.Rect(coinLocation[0], coinLocation[1], 50 - (score / 2), 50 - (score / 2))
             coinSo.play()
         if explode:
@@ -238,20 +239,15 @@ while r:
         else:
             number3 = 0
     elif scene == menu:
-        highscoretext = font4.render(f"Highscore: {highscore}", True, (0, 0, 0))
-        scoretext = font3.render("0", True, (0, 0, 0))
+        highscoretext = NunitoBlack.render(f"Highscore: {highscore}", True, (0, 0, 0))
+        scoretext = Regular.render("0", True, (0, 0, 0))
         scoretext = scoretext.convert_alpha()
         scoretext.set_alpha(75)
         score = 0
         screen.blit(titel, titlerect)
         number += 0.1
         clickTextAddY = math.cos(number) * 30
-        screen.blit(clicktext, (525, 600 - clickTextAddY))
-        particles.append(Particle(random.randint(250, 1075), random.randint(100, 200), random.choice(colors)))
-        for particle in particles:
-            particle.draw()
-        if len(particles) > 70:
-            particles.pop(random.randint(0, len(particles) - 1))
+        screen.blit(clicktext, (screen.get_size()[0]/2-screen.get_size()[0]/11.5, screen.get_size()[1]/1.4 - clickTextAddY))
         screen.blit(highscoretext, highscorerect)
 
     pygame.display.flip()
